@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genlib - Free Biotech Knowledge Base</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .logo-font { font-family: 'Space Grotesk', sans-serif; }
+        .wiki-content { max-width: 780px; margin: 0 auto; }
+        .toc { position: sticky; top: 80px; }
+        .article-link { transition: all 0.2s; }
+        .article-link:hover { color: #10b981; text-decoration: underline; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100">
+    <!-- Top Navbar - Wikipedia Style -->
+    <nav class="bg-zinc-900 border-b border-zinc-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between text-sm">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-emerald-600 rounded flex items-center justify-center text-white font-bold text-xl logo-font">G</div>
+                    <span class="text-2xl font-semibold logo-font tracking-tighter">Genlib</span>
+                </div>
+                <div class="flex gap-6 font-medium">
+                    <a href="#" onclick="showSection('main')" class="hover:text-emerald-400">Main Page</a>
+                    <a href="#" onclick="showSection('papers')" class="hover:text-emerald-400">Papers</a>
+                    <a href="#" onclick="showSection('portals')" class="hover:text-emerald-400">Portals</a>
+                    <a href="#" onclick="showSection('recent')" class="hover:text-emerald-400">Recent Changes</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <input id="global-search" type="text" placeholder="Search Genlib..." 
+                           onkeyup="if(event.key==='Enter') performSearch(this.value)"
+                           class="bg-zinc-800 border border-zinc-700 rounded-full px-5 py-2 w-80 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <button onclick="toggleEditMode()" 
+                        class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 rounded text-sm font-medium flex items-center gap-2">
+                    <i class="fa-solid fa-edit"></i> Edit
+                </button>
+                <button onclick="randomArticle()" 
+                        class="px-4 py-1.5 border border-zinc-700 hover:bg-zinc-800 rounded text-sm font-medium">
+                    Random Article
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex max-w-7xl mx-auto">
+        <!-- Sidebar -->
+        <div class="w-64 border-r border-zinc-800 p-6 hidden lg:block">
+            <div class="mb-8">
+                <h3 class="text-emerald-400 text-xs uppercase tracking-widest mb-3">Navigation</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" onclick="loadArticle('CRISPR-Cas9')" class="article-link">CRISPR-Cas9</a></li>
+                    <li><a href="#" onclick="loadArticle('mRNA Vaccine')" class="article-link">mRNA Vaccines</a></li>
+                    <li><a href="#" onclick="loadArticle('Gene Therapy')" class="article-link">Gene Therapy</a></li>
+                    <li><a href="#" onclick="loadArticle('Synthetic Biology')" class="article-link">Synthetic Biology</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 min-w-0 p-8">
+            <!-- Main Page -->
+            <div id="main-section">
+                <div class="hero-bg h-[420px] rounded-3xl flex items-center justify-center mb-12 relative overflow-hidden" 
+                     style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://picsum.photos/id/1015/1600/900');">
+                    <div class="text-center z-10 px-6">
+                        <h1 class="text-6xl font-bold logo-font tracking-tighter mb-4">Genlib</h1>
+                        <p class="text-2xl text-zinc-200 max-w-xl">The free collaborative encyclopedia of biotechnology and life sciences</p>
+                        <div class="mt-8 flex justify-center gap-4">
+                            <button onclick="loadArticle('CRISPR-Cas9')" 
+                                    class="px-8 py-4 bg-white text-zinc-900 rounded-2xl font-semibold hover:bg-emerald-100">Start Reading</button>
+                            <button onclick="showPublishModal()" 
+                                    class="px-8 py-4 border border-white/40 hover:bg-white/10 rounded-2xl font-semibold">Publish Research</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2 bg-zinc-900 rounded-3xl p-8">
+                        <div class="uppercase text-emerald-400 text-xs tracking-widest mb-2">Featured</div>
+                        <h2 onclick="loadArticle('CRISPR-Cas9')" class="text-4xl font-semibold cursor-pointer hover:text-emerald-400">CRISPR-Cas9: Revolutionizing Gene Editing</h2>
+                        <p class="text-zinc-400 mt-4 line-clamp-3">CRISPR-Cas9 is a groundbreaking technology that allows scientists to edit DNA with unprecedented precision.</p>
+                    </div>
+                    <div class="bg-zinc-900 rounded-3xl p-8 space-y-8">
+                        <div><div class="text-5xl font-semibold text-emerald-400">18,492</div><div class="text-sm text-zinc-400">Articles</div></div>
+                        <div><div class="text-5xl font-semibold text-emerald-400">127k</div><div class="text-sm text-zinc-400">Monthly Readers</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Papers Section -->
+            <div id="papers-section" class="hidden">
+                <h2 class="text-3xl font-semibold mb-8">Latest Research Papers</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="papers-grid"></div>
+            </div>
+
+            <!-- Article Viewer -->
+            <div id="article-view" class="hidden wiki-content">
+                <div class="flex justify-between items-start mb-6">
+                    <h1 id="article-title" class="text-4xl font-bold"></h1>
+                    <div class="flex gap-3">
+                        <button onclick="toggleEditMode()" class="px-5 py-2 bg-emerald-600 rounded-xl text-sm">Edit this page</button>
+                        <button onclick="showTalkPage()" class="px-5 py-2 border border-zinc-700 rounded-xl text-sm">Talk</button>
+                    </div>
+                </div>
+                <div id="article-content" class="prose prose-invert max-w-none text-zinc-200 leading-relaxed text-[17px]"></div>
+                
+                <div class="mt-16 border-t border-zinc-800 pt-8">
+                    <h3 class="text-xl font-semibold mb-4">References</h3>
+                    <ol id="references" class="list-decimal pl-5 space-y-2 text-sm text-zinc-400"></ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publish Modal -->
+    <div id="publish-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
+        <div class="bg-zinc-900 rounded-3xl max-w-lg w-full mx-4 p-8">
+            <h2 class="text-2xl font-semibold mb-6">Publish New Research</h2>
+            <form onsubmit="handlePublish(event)" class="space-y-6">
+                <input type="text" id="paper-title" placeholder="Paper Title" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+                <input type="text" id="authors" placeholder="Authors (comma separated)" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+                <textarea id="abstract" rows="4" placeholder="Abstract..." class="w-full bg-zinc-800 border border-zinc-700 rounded-3xl px-5 py-4"></textarea>
+                <button type="submit" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-semibold">Submit for Review (Demo)</button>
+            </form>
+            <button onclick="hidePublishModal()" class="mt-4 text-zinc-400">Cancel</button>
+        </div>
+    </div>
+
+    <footer class="bg-zinc-950 border-t border-zinc-800 py-12 text-center text-xs text-zinc-500">
+        <p>© 2026 Genlib • Open Access Biotech Encyclopedia • MIT License</p>
+        <p class="mt-2">This is a demo. Real version needs backend.</p>
+    </footer>
+
+    <script>
+        function showSection(section) {
+            document.getElementById('main-section').classList.add('hidden');
+            document.getElementById('papers-section').classList.add('hidden');
+            document.getElementById('article-view').classList.add('hidden');
+            
+            if (section === 'main') {
+                document.getElementById('main-section').classList.remove('hidden');
+            } else if (section === 'papers') {
+                document.getElementById('papers-section').classList.remove('hidden');
+                loadPapers();
+            }
+        }
+
+        function loadPapers() {
+            const grid = document.getElementById('papers-grid');
+            grid.innerHTML = `
+                <div class="paper-card bg-zinc-900 p-6 rounded-3xl cursor-pointer" onclick="loadArticle('CRISPR-Cas9')">
+                    <div class="text-emerald-400 text-xs">bioRxiv • 2025</div>
+                    <h3 class="font-semibold mt-3">Highly Efficient Base Editing in Plants using CRISPR</h3>
+                    <p class="text-sm text-zinc-400 mt-2">New base editor with 92% efficiency.</p>
+                </div>
+                <div class="paper-card bg-zinc-900 p-6 rounded-3xl cursor-pointer" onclick="loadArticle('mRNA Vaccine')">
+                    <div class="text-emerald-400 text-xs">Nature • 2026</div>
+                    <h3 class="font-semibold mt-3">Next-Gen mRNA Delivery Systems</h3>
+                    <p class="text-sm text-zinc-400 mt-2">Improved lipid nanoparticles.</p>
+                </div>
+            `;
+        }
+
+        const articles = {
+            "CRISPR-Cas9": {
+                title: "CRISPR-Cas9",
+                content: `<p><strong>CRISPR-Cas9</strong> is a genome editing technology derived from bacterial adaptive immune systems.</p>
+                <h3>History</h3><p>Discovered by Jennifer Doudna and Emmanuelle Charpentier (Nobel Prize 2020).</p>
+                <h3>Mechanism</h3><p>Cas9 enzyme cuts DNA at specific locations guided by RNA.</p>`,
+                references: ["Jinek et al., Science 2012", "Doudna & Charpentier, Nobel Lecture"]
+            },
+            "mRNA Vaccine": {
+                title: "mRNA Vaccine",
+                content: `<p>mRNA vaccines use messenger RNA to instruct cells to produce antigens.</p><p>Successfully used in COVID-19 vaccines.</p>`,
+                references: ["Sahin et al., Nature Reviews"]
+            }
+        };
+
+        function loadArticle(slug) {
+            const article = articles[slug] || articles["CRISPR-Cas9"];
+            document.getElementById('main-section').classList.add('hidden');
+            document.getElementById('papers-section').classList.add('hidden');
+            const view = document.getElementById('article-view');
+            view.classList.remove('hidden');
+            
+            document.getElementById('article-title').textContent = article.title;
+            document.getElementById('article-content').innerHTML = article.content;
+            document.getElementById('references').innerHTML = article.references.map(ref => `<li>${ref}</li>`).join('');
+        }
+
+        function performSearch(query) {
+            if (!query) return;
+            loadArticle('CRISPR-Cas9');
+        }
+
+        function showPublishModal() {
+            document.getElementById('publish-modal').classList.remove('hidden');
+        }
+
+        function hidePublishModal() {
+            document.getElementById('publish-modal').classList.add('hidden');
+        }
+
+        function handlePublish(e) {
+            e.preventDefault();
+            alert("✅ Paper submitted! (Demo)");
+            hidePublishModal();
+        }
+
+        function toggleEditMode() {
+            alert("🖊️ Edit mode (Demo - Real version allows full editing)");
+        }
+
+        function showTalkPage() {
+            alert("💬 Talk page (Community discussion area)");
+        }
+
+        function randomArticle() {
+            const keys = Object.keys(articles);
+            loadArticle(keys[Math.floor(Math.random() * keys.length)]);
+        }
+
+        window.onload = () => {
+            showSection('main');
+        };
+    </script>
+</body>
+</html>
